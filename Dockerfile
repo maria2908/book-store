@@ -1,7 +1,17 @@
 FROM php:8.2-cli
 
-# Install dependencies
-RUN apt-get update && apt-get install -y unzip git libzip-dev && docker-php-ext-install zip
+# Environment variables for Composer
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_NO_INTERACTION=1
+
+# Install system dependencies + PHP extensions
+RUN apt-get update && apt-get install -y \
+    unzip \
+    git \
+    libzip-dev \
+    libcurl4-openssl-dev \
+    libonig-dev \
+    && docker-php-ext-install zip curl mbstring
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -13,7 +23,7 @@ WORKDIR /app
 COPY . .
 
 # Install PHP dependencies
-RUN composer install
+RUN composer install --no-interaction --no-progress --prefer-dist
 
 # Expose port
 EXPOSE 10000
