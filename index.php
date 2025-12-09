@@ -1,10 +1,10 @@
 <?php
-require_once('../partials/header.php');
+require_once('./partials/header.php');
 
 session_start();
 
 if (!$_SESSION['user_id']) {
-    header("Location: ../pages/login.php");
+    header("Location: ./pages/login.php");
 }
 ?>
 <a href="./pages/logout.php">Log out</a>
