@@ -1,0 +1,4 @@
+<?php
+
+const SUPABASE_URL = 'https://ghspbercgenecmernxqa.supabase.co';
+const SUPABASE_API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdoc3BiZXJjZ2VuZWNtZXJueHFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM2MTUyMjYsImV4cCI6MjA3OTE5MTIyNn0.cH6WXC4hRCTc5KwL-irFI5XTSiloBhxcREQcRSZeGJU';
