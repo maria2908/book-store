@@ -1,10 +1,10 @@
 FROM php:8.2-cli
 
-# Environment variables for Composer
+# Allow Composer to run as root
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_NO_INTERACTION=1
 
-# Install system dependencies + PHP extensions
+# Install system packages + PHP extensions required by your dependencies
 RUN apt-get update && apt-get install -y \
     unzip \
     git \
@@ -23,9 +23,9 @@ WORKDIR /app
 COPY . .
 
 # Install PHP dependencies
-RUN composer install --no-interaction --no-progress --prefer-dist
+RUN composer install --no-ansi --no-interaction --prefer-dist --verbose
 
-# Expose port
+# Expose Render port
 EXPOSE 10000
 
 # Start PHP server
