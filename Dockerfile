@@ -23,7 +23,7 @@ WORKDIR /app
 COPY . .
 
 # Install PHP dependencies
-RUN composer install --no-ansi --no-interaction --prefer-dist --verbose
+RUN php -v && composer --version && ls -la && composer install --no-ansi --no-interaction --prefer-dist --verbose
 
 # Expose Render port
 EXPOSE 10000
