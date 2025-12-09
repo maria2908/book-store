@@ -1,32 +1,30 @@
-FROM php:8.2-cli
+# Use official PHP + Apache base image
+FROM php:8.2-apache
 
-# Allow Composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV COMPOSER_NO_INTERACTION=1
-
-# Install system packages + PHP extensions required by your dependencies
+# Install dependencies (for Composer and PHP extensions)
 RUN apt-get update && apt-get install -y \
     unzip \
+    zip \
+    curl \
     git \
-    libzip-dev \
-    libcurl4-openssl-dev \
-    libonig-dev \
-    && docker-php-ext-install zip curl mbstring
+    libzip-dev
 
-# Install Composer
+# Install PDO MySQL extension
+RUN docker-php-ext-install pdo pdo_mysql
+
+# Install Composer (copy from official Composer image)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /app
+WORKDIR /var/www/html
 
-# Copy project files
+# Copy all app files
 COPY . .
 
-# Install PHP dependencies
-RUN php -v && composer --version && ls -la && composer install --no-ansi --no-interaction --prefer-dist --verbose
+# Enable Apache mod_rewrite
+RUN a2enmod rewrite
 
-# Expose Render port
-EXPOSE 10000
+# Install PHP dependencies with Composer
+RUN composer install --no-dev --optimize-autoloader
 
-# Start PHP server
-CMD ["php", "-S", "0.0.0.0:10000", "-t", "."]
+EXPOSE 80
